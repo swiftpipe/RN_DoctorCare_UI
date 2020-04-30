@@ -1,8 +1,9 @@
 import React from 'react';
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Fontisto';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import LinearGradient from 'react-native-linear-gradient';
 const Face = ({icon, title, color, full}) => {
   return (
     <View style={styles.faceGroup}>
@@ -36,13 +37,15 @@ const Rating = ({rating}) => {
   );
 };
 
-const CardHome = ({title, info}) => {
+export const CardHome = ({title, info, noHeader, noFooter, book}) => {
   return (
     <View style={styles.cardContainer}>
-      <View style={styles.cardHeaderContaner}>
-        <Text style={styles.cardHeading}>{title}</Text>
-        <Text style={styles.cardMore}>See All</Text>
-      </View>
+      {!noHeader && (
+        <View style={styles.cardHeaderContaner}>
+          <Text style={styles.cardHeading}>{title}</Text>
+          <Text style={styles.cardMore}>See All</Text>
+        </View>
+      )}
       <View style={styles.cardBody}>
         <View style={styles.cardBodyTop}>
           <Image
@@ -67,27 +70,43 @@ const CardHome = ({title, info}) => {
                 <Icon name="heart" color="#E8008D" size={22} />
               </View>
             )}
+            {book && (
+              <View style={styles.buttonBooks}>
+                <TouchableOpacity>
+                  <LinearGradient
+                    start={{x: 0, y: 0}}
+                    end={{x: 1, y: 0}}
+                    style={styles.btnGradient}
+                    colors={['#554383', '#943F86']}>
+                    <Text style={styles.btnBookText}>Book Visit</Text>
+                  </LinearGradient>
+                </TouchableOpacity>
+              </View>
+            )}
           </View>
         </View>
-        <View style={styles.margin} />
-        <View style={styles.cardBodyBottom}>
-          <View style={styles.cardGroupIcon}>
-            <AntDesign name="checkcircleo" size={32} />
-            <Text style={styles.cardBottomTitle}>Check-in</Text>
+        {!noFooter && <View style={styles.margin} />}
+
+        {!noFooter && (
+          <View style={styles.cardBodyBottom}>
+            <View style={styles.cardGroupIcon}>
+              <AntDesign name="checkcircleo" size={32} />
+              <Text style={styles.cardBottomTitle}>Check-in</Text>
+            </View>
+            <View style={styles.cardGroupIcon}>
+              <AntDesign name="closecircleo" size={32} />
+              <Text style={styles.cardBottomTitle}>Cancle</Text>
+            </View>
+            <View style={styles.cardGroupIcon}>
+              <AntDesign name="calendar" size={32} />
+              <Text style={styles.cardBottomTitle}>Calendar</Text>
+            </View>
+            <View style={styles.cardGroupIcon}>
+              <MaterialIcons name="explore" size={32} />
+              <Text style={styles.cardBottomTitle}>Directions</Text>
+            </View>
           </View>
-          <View style={styles.cardGroupIcon}>
-            <AntDesign name="closecircleo" size={32} />
-            <Text style={styles.cardBottomTitle}>Cancle</Text>
-          </View>
-          <View style={styles.cardGroupIcon}>
-            <AntDesign name="calendar" size={32} />
-            <Text style={styles.cardBottomTitle}>Calendar</Text>
-          </View>
-          <View style={styles.cardGroupIcon}>
-            <MaterialIcons name="explore" size={32} />
-            <Text style={styles.cardBottomTitle}>Directions</Text>
-          </View>
-        </View>
+        )}
       </View>
     </View>
   );
@@ -146,6 +165,7 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     padding: 15,
+    paddingBottom: 0,
   },
   margin: {
     height: 1,
@@ -269,5 +289,18 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     color: '#fff',
     marginTop: 5,
+  },
+  buttonBooks: {
+    flexDirection: 'row',
+    marginTop: 20,
+  },
+  btnGradient: {
+    padding: 10,
+    borderRadius: 40,
+  },
+  btnBookText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#fff',
   },
 });
